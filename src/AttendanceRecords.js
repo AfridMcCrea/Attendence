@@ -1,7 +1,9 @@
+// AttendanceRecords.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./AttendanceRecords.css"; // Import CSS file
 
-function AttendanceRecords({ records }) {
+function AttendanceRecords({ records, subjects }) {
   const [initialSubjects, setInitialSubjects] = useState([]);
 
   const calculatePercentage = (attendance, attended) => {
@@ -14,6 +16,8 @@ function AttendanceRecords({ records }) {
       .post("/api/attendance", { records })
       .then((response) => {
         console.log("Attendance records saved successfully:", response.data);
+        // Update initial subjects with latest names
+        setInitialSubjects(subjects);
       })
       .catch((error) => {
         console.error("Error saving attendance records:", error);
@@ -29,31 +33,22 @@ function AttendanceRecords({ records }) {
       }));
       setInitialSubjects(updatedSubjects);
     }
-  }, [records]);
+  }, [records, subjects]);
 
   return (
-    <div>
+    <div className="h2">
       <h2>Attendance Records</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Total Attendance</th>
-            <th>Total Attended</th>
-            <th>Percentage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {initialSubjects.map((record, index) => (
-            <tr key={index}>
-              <td>{record.name}</td>
-              <td>{record.attendance}</td>
-              <td>{record.attended}</td>
-              <td>{record.percentage}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="attendance-container">
+        {initialSubjects.map((record, index) => (
+          <div className="attendance-card" key={index}>
+            <div className="subject-name">{record.name}</div>
+            <div className="attendance-stats">
+              <div className="total-attendance">{`${record.attended}/${record.attendance}`}</div>
+              <div className="percentage">{record.percentage}%</div>
+            </div>
+          </div>
+        ))}
+      </div>
       <button onClick={saveToDatabase}>Save to Database</button>
     </div>
   );

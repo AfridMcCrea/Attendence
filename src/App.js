@@ -6,9 +6,11 @@ import AttendanceRecords from "./AttendanceRecords";
 
 function App() {
   const [initialSubjects, setInitialSubjects] = useState([
-    { name: "English", attendance: 0, attended: 0 },
-    { name: "Hindi", attendance: 0, attended: 0 },
-    { name: "Maths", attendance: 0, attended: 0 },
+    { name: "M&M", attendance: 0, attended: 0 },
+    { name: "AC", attendance: 0, attended: 0 },
+    { name: "ADC", attendance: 0, attended: 0 },
+    { name: "DSOS", attendance: 0, attended: 0 },
+    { name: "Bio", attendance: 0, attended: 0 },
   ]);
   const [records, setRecords] = useState([]);
 
@@ -18,10 +20,6 @@ function App() {
       setInitialSubjects(storedSubjects);
     }
   }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("subjects", JSON.stringify(initialSubjects));
-  // }, [initialSubjects]);
 
   const handleRight = (index) => {
     const newSubjects = [...initialSubjects];
@@ -38,20 +36,24 @@ function App() {
     localStorage.setItem("subjects", JSON.stringify(newSubjects))
   };
 
-  const handleSubmit = () => {
-    // Reset all checkboxes
-    const updatedSubjects = initialSubjects.map(subject => {
-      return { ...subject, isChecked: false };
-    });
-    setInitialSubjects(updatedSubjects);
+const handleSubmit = () => {
+  // Reset all checkboxes
+  const updatedSubjects = initialSubjects.map(subject => {
+    return { ...subject, isChecked: false };
+  });
 
-    // Update records
-    const updatedRecords = initialSubjects.map((subject) => ({
-      ...subject,
-      percentage: subject.attendance === 0 ? 0 : ((subject.attended / subject.attendance) * 100).toFixed(2),
-    }));
-    setRecords(updatedRecords);
-  };
+  // Update records with latest subject names
+  const updatedRecords = updatedSubjects.map((subject) => ({
+    ...subject,
+    percentage: subject.attendance === 0 ? 0 : ((subject.attended / subject.attendance) * 100).toFixed(2),
+  }));
+  
+  setRecords(updatedRecords);
+
+  // Save updated subjects to localStorage
+  setInitialSubjects(updatedSubjects);
+  localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
+};
 
   const handleDelete = () => {
     setInitialSubjects([]);
@@ -64,6 +66,7 @@ function App() {
     if (newSubjectName) {
       const newSubjects = [...initialSubjects, { name: newSubjectName, attendance: 0, attended: 0 }];
       setInitialSubjects(newSubjects);
+      localStorage.setItem("subjects", JSON.stringify(newSubjects));
     }
   };
 
@@ -71,28 +74,20 @@ function App() {
     const newSubjects = [...initialSubjects];
     newSubjects.splice(index, 1);
     setInitialSubjects(newSubjects);
+    localStorage.setItem("subjects", JSON.stringify(newSubjects));
   };
 
   const handleRewriteSubject = (index, newName) => {
     const newSubjects = [...initialSubjects];
     newSubjects[index].name = newName;
     setInitialSubjects(newSubjects);
+    localStorage.setItem("subjects", JSON.stringify(newSubjects));
   };
 
   return (
     <div className="container mt-4">
       <h1>Attendance Tracker</h1>
-      <div className="Content">
       <table className="table">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Total Attendance</th>
-            <th>Total Attended</th>
-            <th>Percentage</th>
-            <th>Action</th>
-          </tr>
-        </thead>
         <tbody>
           {initialSubjects.map((subject, index) => (
             <Subject
@@ -110,7 +105,7 @@ function App() {
           ))}
         </tbody>
       </table>
-      </div>
+      
       <div>
         <button onClick={handleSubmit} className="btn btn-primary">
           Submit

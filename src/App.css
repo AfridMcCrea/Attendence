@@ -9,21 +9,27 @@ body, .container, h1, .table th, .table td, .btn, .progress, .progress-circle {
   font-weight: 700; /* Bold */
 }
 
+
 .container {
-  max-width: 800px;
+  max-width: 80px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f7f7f7;
-  border-radius: 10px;
+  border-radius: 20px;
   margin-top: 10%;
   animation: shadowColorChange 15s linear infinite alternate;
   
+}
+.container h1{
+  font-style: italic;
+  font-size: 25px;
+  color: #278cf8;
 }
 .table {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color: #f7f7f700;
   border-radius: 10px;
   margin-top: 10%;
   animation: shadowColorChange 15s linear infinite alternate;
@@ -80,39 +86,23 @@ h1 {
   text-align: center; /* Center align the heading */
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 8px;
-  overflow: hidden;
-}
 
-.table th,
-.table td {
-  padding: 8px; /* Reduce padding */
-  text-align: left;
-}
 
-.table th {
-  background-color: #f2f2f2;
-  border-bottom: 1px solid #ddd;
-}
 
-.table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
 
 .btn {
-  padding: 8px 12px; /* Adjust padding */
-  font-size: 14px;
+  padding: 10px 14px; /* Adjust padding */
+  font-size: 10px;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
+  margin-top: 10%;
+  margin-left: 20px;
+  display: inline-flex;
 }
 
 .btn-primary {
-  background-color: #20931cd7;
+  background-color: #ffab23;
   color: #fff;
 }
 
@@ -121,7 +111,7 @@ h1 {
 }
 
 .btn-danger {
-  background-color: #c50014;
+  background-color: #ff2c41;
   color: #fff;
 }
 
@@ -137,6 +127,10 @@ h1 {
 
 .btn-delete:hover {
   color: #c50014; /* Change color on hover */
+}
+
+.btn-success {
+  background: #00c566;
 }
 
 /* Adjust the progress bar CSS */
@@ -174,15 +168,8 @@ h1 {
 /* Responsive CSS */
 @media screen and (max-width: 768px) {
   .container {
-    max-width: 90%;
+    max-width: 70%;
   }
-  .table{
-    max-width: screen;
-    
-  }
-  
-  .table th,
-  .table td {
-    padding: 8px; /* Reduce padding */
-  }
+ 
+
 }

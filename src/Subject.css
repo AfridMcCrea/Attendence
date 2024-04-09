@@ -1,0 +1,63 @@
+/* Subject.css */
+
+.subject-container {
+    border: 1px solid #564caf; /* Green border color */
+    border-radius: 5px;
+    padding: 40px; /* Increased padding */
+    margin-bottom: 10px; /* Increased margin bottom for more spacing */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-gap: 20px; /* Gap between the columns */
+    margin-right: auto;
+  }
+  
+  .subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .subject-name {
+    font-weight: bold;
+  }
+  
+  .subject-actions {
+    display: flex;
+  }
+  
+  .subject-actions button {
+    margin-left: 10px; /* Increased left margin */
+  }
+  
+  .subject-stats {
+    margin-top: 50px; /* Increased top margin */
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .total-attendance {
+    font-size: 16px; /* Increased font size */
+  }
+  
+  .percentage {
+    font-size: 18px; /* Increased font size */
+  }
+  
+  .subject-buttons {
+    margin-top: 10px; /* Increased top margin */
+  }
+  
+  .subject-buttons button {
+    margin-right: 10px; /* Increased right margin */
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 600px) {
+    .subject-container {
+      grid-template-columns: 1fr; /* Single column on smaller screens */
+      padding: 15px; /* Adjusted padding for smaller screens */
+      grid-gap: 15px; /* Adjusted gap for smaller screens */
+    }
+  }
+  
+  

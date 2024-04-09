@@ -1,0 +1,69 @@
+/* AttendanceRecords.css */
+
+.attendance-container {
+    border: 1px solid #564caf00; /* Green border color */
+    border-radius: 5px;
+    padding: 40px; /* Increased padding */
+    margin-bottom: 10px; /* Increased margin bottom for more spacing */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-gap: 20px; /* Gap between the columns */
+    margin-right: auto;
+  }
+  .h2{
+    font-style: italic;
+  font-size: 25px;
+  color: #278cf8;
+  }
+
+  .h2 h2{
+    font-style: italic;
+  font-size: 25px;
+  color: #f82727;
+  margin-left: 10%;
+  
+  }
+  
+  .attendance-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .subject-name {
+    font-weight: bold;
+  }
+  
+  .attendance-stats {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .total-attendance {
+    font-size: 14px;
+  }
+  
+  .percentage {
+    font-size: 16px;
+  }
+  
+  /* Responsive Styles */
+  
+  @media screen and (max-width: 768px) {
+    .attendance-container {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-gap: 10px;
+    }
+  }
+  
+  @media screen and (max-width: 576px) {
+    .attendance-container {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      grid-gap: 5px;
+    }
+  }
+  
+  /* Add more media queries as needed for different screen sizes */
+  

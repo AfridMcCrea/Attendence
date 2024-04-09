@@ -1,13 +1,32 @@
+// Subject.js
 import React, { useState, useEffect } from "react";
 import { MdDelete, MdEdit } from 'react-icons/md';
+import "./Subject.css"; // Import CSS file
 
 function Subject({ name, initialAttendance, initialAttended, index, isChecked, onPresent, onAbsent, onDelete, onRewrite }) {
   const [attendance, setAttendance] = useState(initialAttendance);
   const [attended, setAttended] = useState(initialAttended);
   const [subjectName, setSubjectName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
-  const [percentage, setPercentage] = useState(0); // Add percentage state
-  const [percentageColor, setPercentageColor] = useState("#007bff"); 
+  const [percentage, setPercentage] = useState(0);
+  const [percentageColor, setPercentageColor] = useState("#007bff");
+  const [progressAngle, setProgressAngle] = useState(0);
+
+  useEffect(() => {
+    const percentageValue = ((attended / attendance) * 100).toFixed(2);
+    setPercentage(percentageValue);
+    if (percentageValue >= 75) {
+      setPercentageColor("green");
+    } else if (percentageValue >= 50) {
+      setPercentageColor("blue");
+    } else {
+      setPercentageColor("red");
+    }
+
+    // Calculate angle to represent percentage in circular progress bar
+    const angle = (percentageValue / 100) * 360;
+    setProgressAngle(angle);
+  }, [attended, attendance]);
 
   const handlePresent = () => {
     onPresent();
@@ -31,62 +50,79 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
     }
   };
 
-  useEffect(() => {
-    const percentageValue = ((attended / attendance) * 100).toFixed(2);
-    setPercentage(percentageValue); // Update percentage state
-    localStorage.setItem(`subject_${index}_percentage`, percentageValue);
-
-    // Update progress bar color based on percentage
-    if (percentageValue >= 75) {
-      setPercentageColor("green");
-    } else if (percentageValue >= 50) {
-      setPercentageColor("#ffe100");
-    } else {
-      setPercentageColor("red");
-    }
-  }, [attended, attendance, index]);
+  const handleChange = (e) => {
+    setSubjectName(e.target.value);
+  };
 
   return (
-    <tr>
-      <td>
-        <div className="subject-wrapper">
-          {isEditing ? (
-            <input
-              type="text"
-              value={subjectName}
-              onChange={(e) => setSubjectName(e.target.value)}
-            />
-          ) : (
-            <span>{subjectName}</span>
-          )}
-          <div className="icons">
-            <button onClick={handleDelete} className="btn-delete">
-              <MdDelete />
-            </button>
-            <button onClick={handleEdit} className="btn-edit">
-              <MdEdit />
-            </button>
-          </div>
+    <div className="subject-container">
+      <div className="subject-header">
+        {isEditing ? (
+          <input
+            type="text"
+            value={subjectName}
+            onChange={handleChange}
+            className="edit-input"
+          />
+        ) : (
+          <div className="subject-name">{subjectName}</div>
+        )}
+        <div className="subject-actions">
+          <button onClick={handleEdit} className="btn-edit">
+            <MdEdit />
+          </button>
+          <button onClick={handleDelete} className="btn-delete">
+            <MdDelete />
+          </button>
         </div>
-      </td>
-      <td>{attendance}</td>
-      <td>{attended}</td>
-      <td>
-        <div className="progress">
-          <div className="progress-circle" style={{ '--percentage': `${percentage}%`, backgroundColor: percentageColor }}>
-            <span>{percentage}%</span>
-          </div>
-        </div>
-      </td>
-      <td>
+      </div>
+      <div className="progress-container">
+        <svg className="progress-ring" width="120" height="120">
+          <circle
+            className="progress-ring-circle"
+            stroke="#ccc"
+            strokeWidth="8"
+            fill="transparent"
+            r="52"
+            cx="60"
+            cy="60"
+          />
+          <circle
+            className="progress-ring-circle"
+            stroke={percentageColor}
+            strokeWidth="8"
+            fill="transparent"
+            r="52"
+            cx="60"
+            cy="60"
+            style={{
+              strokeDasharray: `${progressAngle} 360`,
+              transform: "rotate(-90deg)",
+              transformOrigin: "50% 50%"
+            }}
+          />
+          <text
+            x="50%"
+            y="50%"
+            dominantBaseline="middle"
+            textAnchor="middle"
+            fill={percentageColor}
+            fontSize="16"
+            fontWeight="bold"
+          >
+            {percentage}%
+          </text>
+        </svg>
+      </div>
+      <div className="subject-buttons">
         <button onClick={handlePresent} disabled={isChecked}>
           Present
         </button>
         <button onClick={handleAbsent} disabled={isChecked}>
           Absent
         </button>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 
