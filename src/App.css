@@ -1,0 +1,188 @@
+/* App.css */
+
+/* Import Google Font Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+/* Apply Montserrat font to relevant elements */
+body, .container, h1, .table th, .table td, .btn, .progress, .progress-circle {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; /* Bold */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  margin-top: 10%;
+  animation: shadowColorChange 15s linear infinite alternate;
+  
+}
+.table {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  margin-top: 10%;
+  animation: shadowColorChange 15s linear infinite alternate;
+
+}
+
+@keyframes shadowColorChange {
+  0% {
+    box-shadow: 0px 0px 50px rgb(214, 117, 244);
+  }
+  50% {
+    box-shadow: 0px 0px 50px rgb(117, 214, 244);
+  }
+  100% {
+    box-shadow: 0px 0px 50px rgb(244, 117, 214);
+  }
+}
+
+/* Add styles for delete and edit icons */
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px; /* Adjust the margin as needed */
+}
+
+.icons button:focus {
+  outline: none;
+}
+
+.icons button:hover {
+  color: red; /* Change color on hover */
+}
+
+/* Adjust the padding and margin for subject name */
+.subject-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px; /* Adjust padding as needed */
+}
+
+.subject-wrapper span {
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+h1 {
+  color: #333;
+  text-align: center; /* Center align the heading */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 8px; /* Reduce padding */
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.btn {
+  padding: 8px 12px; /* Adjust padding */
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  background-color: #20931cd7;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #278cf8;
+}
+
+.btn-danger {
+  background-color: #c50014;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #bd2130;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  color: #c50014; /* Change color on hover */
+}
+
+/* Adjust the progress bar CSS */
+.progress {
+  width: 100%;
+  height: 20px;
+  background-color: #dddddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #ffe100;
+  color: #fff;
+  text-align: center;
+  transition: width 0.5s ease;
+}
+
+.progress-circle {
+  width: var(--percentage); /* Use percentage as width */
+  height: 100%;
+  background-color: var(--progress-color); /* Use dynamically set progress color */
+  border-radius: 5px; /* Adjust the border radius as needed */
+  color: #ffffff;
+  text-align: center;
+  transition: width 0.5s ease;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */
+}
+
+.progress-circle span {
+  line-height: 20px;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
+  .table{
+    max-width: screen;
+    
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px; /* Reduce padding */
+  }
+}
