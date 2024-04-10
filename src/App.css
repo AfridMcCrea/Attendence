@@ -10,16 +10,16 @@ body, .container, h1, .table th, .table td, .btn, .progress, .progress-circle {
 }
 
 
-.container {
-  max-width: 80px;
+/* .container {
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 200px;
   background-color: #f7f7f7;
   border-radius: 20px;
   margin-top: 10%;
   animation: shadowColorChange 15s linear infinite alternate;
   
-}
+} */
 .container h1{
   font-style: italic;
   font-size: 25px;
@@ -168,7 +168,14 @@ h1 {
 /* Responsive CSS */
 @media screen and (max-width: 768px) {
   .container {
-    max-width: 70%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    margin-top: 8%;
+    animation: shadowColorChange 15s linear infinite alternate;
+    
   }
  
 

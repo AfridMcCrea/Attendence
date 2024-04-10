@@ -1,16 +1,18 @@
-// Subject.js
 import React, { useState, useEffect } from "react";
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete, MdEdit, MdSave } from 'react-icons/md';
 import "./Subject.css"; // Import CSS file
 
-function Subject({ name, initialAttendance, initialAttended, index, isChecked, onPresent, onAbsent, onDelete, onRewrite }) {
+function Subject({ name, initialAttendance, initialAttended, index, isChecked, onPresent, onAbsent, onDelete, onRewrite, savedName }) {
   const [attendance, setAttendance] = useState(initialAttendance);
   const [attended, setAttended] = useState(initialAttended);
   const [subjectName, setSubjectName] = useState(name);
+  const [savedNameState, setSavedName] = useState(savedName);
   const [isEditing, setIsEditing] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [percentageColor, setPercentageColor] = useState("#007bff");
   const [progressAngle, setProgressAngle] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
+  const [presentsNeeded, setPresentsNeeded] = useState(0);
 
   useEffect(() => {
     const percentageValue = ((attended / attendance) * 100).toFixed(2);
@@ -26,7 +28,17 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
     // Calculate angle to represent percentage in circular progress bar
     const angle = (percentageValue / 100) * 360;
     setProgressAngle(angle);
-  }, [attended, attendance]);
+
+    // Fetch saved subject names and attendance from localStorage
+    const storedSubjects = JSON.parse(localStorage.getItem("subjects"));
+    if (storedSubjects) {
+      setSavedName(storedSubjects[index]?.name || name);
+      const storedAttendance = storedSubjects[index]?.attendance || 0;
+      const storedAttended = storedSubjects[index]?.attended || 0;
+      const presentsNeeded = Math.ceil((75 * (storedAttendance + 1) / 100) - storedAttended);
+      setPresentsNeeded(presentsNeeded);
+    }
+  }, [attended, attendance, index, name]);
 
   const handlePresent = () => {
     onPresent();
@@ -40,18 +52,27 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
   };
 
   const handleDelete = () => {
-    onDelete(index);
+    onDelete(index); // Pass the index to onDelete
   };
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
+    setIsSaving(false); // Reset saving state
     if (!isEditing) {
       onRewrite(subjectName);
     }
   };
 
+  const handleSave = () => {
+    setIsSaving(false);
+    setIsEditing(false);
+    setSavedName(subjectName); // Update savedNameState with the updated subject name
+    onRewrite(subjectName);
+  };
+
   const handleChange = (e) => {
     setSubjectName(e.target.value);
+    setIsSaving(true); // Enable saving state
   };
 
   return (
@@ -65,12 +86,21 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
             className="edit-input"
           />
         ) : (
-          <div className="subject-name">{subjectName}</div>
+          <>
+            <div className="subject-name">{subjectName}</div>
+            {savedNameState !== subjectName && <div className="saved-name">({savedNameState})</div>}
+          </>
         )}
         <div className="subject-actions">
-          <button onClick={handleEdit} className="btn-edit">
-            <MdEdit />
-          </button>
+          {isEditing ? (
+            <button onClick={handleSave} className="btn-save">
+              <MdSave />
+            </button>
+          ) : (
+            <button onClick={handleEdit} className="btn-edit">
+              <MdEdit />
+            </button>
+          )}
           <button onClick={handleDelete} className="btn-delete">
             <MdDelete />
           </button>
@@ -121,6 +151,13 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
         <button onClick={handleAbsent} disabled={isChecked}>
           Absent
         </button>
+      </div>
+      <div className="presents-needed">
+        {percentage >= 75 ? (
+          <span>You are on track</span>
+        ) : (
+          <span>You need to attend more class.</span>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from "react";
 import './App.css'; // Import CSS file
 import Subject from "./Subject";
@@ -6,11 +5,8 @@ import AttendanceRecords from "./AttendanceRecords";
 
 function App() {
   const [initialSubjects, setInitialSubjects] = useState([
-    { name: "M&M", attendance: 0, attended: 0 },
-    { name: "AC", attendance: 0, attended: 0 },
-    { name: "ADC", attendance: 0, attended: 0 },
-    { name: "DSOS", attendance: 0, attended: 0 },
-    { name: "Bio", attendance: 0, attended: 0 },
+    // { name: "1", attendance: 0, attended: 0 },
+
   ]);
   const [records, setRecords] = useState([]);
 
@@ -19,6 +15,11 @@ function App() {
     if (storedSubjects) {
       setInitialSubjects(storedSubjects);
     }
+
+    const storedRecords = JSON.parse(localStorage.getItem("records"));
+    if (storedRecords) {
+      setRecords(storedRecords);
+    }
   }, []);
 
   const handleRight = (index) => {
@@ -26,39 +27,41 @@ function App() {
     newSubjects[index].attendance += 1;
     newSubjects[index].attended += 1;
     setInitialSubjects(newSubjects);
-    localStorage.setItem("subjects", JSON.stringify(newSubjects))
+    localStorage.setItem("subjects", JSON.stringify(newSubjects));
   };
 
   const handleWrong = (index) => {
     const newSubjects = [...initialSubjects];
     newSubjects[index].attendance += 1;
     setInitialSubjects(newSubjects);
-    localStorage.setItem("subjects", JSON.stringify(newSubjects))
+    localStorage.setItem("subjects", JSON.stringify(newSubjects));
   };
 
-const handleSubmit = () => {
-  // Reset all checkboxes
-  const updatedSubjects = initialSubjects.map(subject => {
-    return { ...subject, isChecked: false };
-  });
+  const handleSubmit = () => {
+    // Reset all checkboxes
+    const updatedSubjects = initialSubjects.map(subject => {
+      return { ...subject, isChecked: false };
+    });
 
-  // Update records with latest subject names
-  const updatedRecords = updatedSubjects.map((subject) => ({
-    ...subject,
-    percentage: subject.attendance === 0 ? 0 : ((subject.attended / subject.attendance) * 100).toFixed(2),
-  }));
-  
-  setRecords(updatedRecords);
+    // Update records with latest subject names
+    const updatedRecords = updatedSubjects.map((subject) => ({
+      ...subject,
+      percentage: subject.attendance === 0 ? 0 : ((subject.attended / subject.attendance) * 100).toFixed(2),
+    }));
+    
+    setRecords(updatedRecords);
+    localStorage.setItem("records", JSON.stringify(updatedRecords));
 
-  // Save updated subjects to localStorage
-  setInitialSubjects(updatedSubjects);
-  localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
-};
+    // Save updated subjects to localStorage
+    setInitialSubjects(updatedSubjects);
+    localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
+  };
 
   const handleDelete = () => {
     setInitialSubjects([]);
     setRecords([]);
     localStorage.removeItem("subjects");
+    localStorage.removeItem("records");
   };
 
   const handleAddSubject = () => {
@@ -87,12 +90,10 @@ const handleSubmit = () => {
   return (
     <div className="container mt-4">
       <h1>Attendance Tracker</h1>
-      <table className="table">
-        <tbody>
-          {initialSubjects.map((subject, index) => (
+      <div className="subject-container">
+        {initialSubjects.map((subject, index) => (
+          <div key={index} className="subject-record">
             <Subject
-              key={index}
-              index={index}
               name={subject.name}
               initialAttendance={subject.attendance}
               initialAttended={subject.attended}
@@ -101,10 +102,15 @@ const handleSubmit = () => {
               onAbsent={() => handleWrong(index)}
               onDelete={() => handleDeleteSubject(index)}
               onRewrite={(newName) => handleRewriteSubject(index, newName)}
+              savedName={records[index]?.name || subject.name} // Display the saved subject name if available
             />
-          ))}
-        </tbody>
-      </table>
+            <div className="attendance-record">
+              <span>{`Attendance: ${subject.attendance}`}</span>
+              <span>{`Attended: ${subject.attended}`}</span>
+            </div>
+          </div>
+        ))}
+      </div>
       
       <div>
         <button onClick={handleSubmit} className="btn btn-primary">

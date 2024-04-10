@@ -40,7 +40,7 @@ function AttendanceRecords({ records, subjects }) {
       <h2>Attendance Records</h2>
       <div className="attendance-container">
         {initialSubjects.map((record, index) => (
-          <div className="attendance-card" key={index}>
+          <div className="attendance-card" key={ index }>
             <div className="subject-name">{record.name}</div>
             <div className="attendance-stats">
               <div className="total-attendance">{`${record.attended}/${record.attendance}`}</div>
