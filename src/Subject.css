@@ -1,24 +1,69 @@
 /* Subject.css */
+/* Subject.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+.subject-buttons {
+  display: flex;
+  gap: 5px; /* Space between buttons */
+  justify-content: flex-start; /* Align to the left */
+}
+
+.subject-buttons button {
+  padding: 5px 10px; /* Adjusted padding */
+  font-size: 14px; /* Reduced font size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor pointer for buttons */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Present button styles */
+.subject-buttons button:first-child {
+  background-color: #38b000; /* Green color */
+  color: #fff; /* White text color */
+}
+
+.subject-buttons button:first-child:hover {
+  background-color: #2b8d00; /* Darker green on hover */
+}
+
+/* Absent button styles */
+.subject-buttons button:last-child {
+  background-color: #d9534f; /* Red color */
+  color: #fff; /* White text color */
+}
+
+.subject-buttons button:last-child:hover {
+  background-color: #c9302c; /* Darker red on hover */
+}
 
 .subject-container {
-  border: 1px solid #564caf; /* Green border color */
-  border-radius: 5px;
-  padding: 40px; /* Increased padding */
-  margin-bottom: 10px; /* Increased margin bottom for more spacing */
+  
+  border: 1px solid rgb(255, 255, 255); /* Light red border color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 10px; /* Reduced padding */
+  margin-bottom: 10px; /* Reduced margin */
+  width: 60%; /* Reduced width of the container */
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  grid-gap: 20px; /* Gap between the columns */
-  margin-right: auto;
+  grid-template-columns: 1fr 2fr; /* Adjusted layout: 1fr for left side, 2fr for right side */
+  grid-gap: 15px; /* Gap between the columns */
+  transition: border-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.subject-container:hover {
+  border-color: #ff6347; /* Tomato color on hover */
+  
 }
 
 .subject-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5px; /* Reduced margin for separation */
 }
 
 .subject-name {
   font-weight: bold;
+  font-size: 14px; /* Reduced font size */
 }
 
 .subject-actions {
@@ -26,40 +71,87 @@
 }
 
 .subject-actions button {
-  margin-left: 10px; /* Increased left margin */
+  margin-left: 8px; /* Adjusted margin */
+  color: #ca7171;
+  background-color: transparent; /* Transparent background */
+  border: none; /* No border */
+  cursor: pointer; /* Cursor pointer for buttons */
 }
 
-.subject-stats {
-  margin-top: 50px; /* Increased top margin */
-  display: flex;
-  justify-content: space-between;
+.subject-actions button:hover {
+  color: #ff6347; /* Change color on hover */
 }
 
-.total-attendance {
-  font-size: 16px; /* Increased font size */
-}
-
+.total-attendance,
 .percentage {
-  font-size: 18px; /* Increased font size */
+  font-size: 14px; /* Reduced font size */
 }
 
 .subject-buttons {
-  margin-top: 10px; /* Increased top margin */
-  
+  display: flex;
+  gap: 5px; /* Space between buttons */
+  justify-content: flex-start; /* Align to the left */
 }
 
 .subject-buttons button {
-  margin-right: 10px; /* Increased right margin */
-  background-color: #564caf;
-  color: aliceblue;
+  padding: 5px 10px; /* Adjusted padding */
+  font-size: 14px; /* Reduced font size */
+  background-color: #ca7171;
+  color: #fff; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor pointer for buttons */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
 }
+
+.subject-buttons button:hover {
+  background-color: #ff6347; /* Change background color on hover */
+}
+
+/* Subject.css */
+
+/* Additional CSS for the horizontal progress bar */
+.progress-bar-container {
+  width: 100%; /* Full width of the container */
+  height: 20px; /* Height of the progress bar */
+  background-color: #f0f0f056; /* Background color */
+  margin-top: 10px; /* Add some spacing */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensure the progress bar stays within the container */
+}
+
+.progress-bar {
+  height: 100%; /* Fill the height of the container */
+  border-radius: 10px; /* Match rounded corners */
+  display: flex; /* Use flex layout */
+  justify-content: center; /* Center the text */
+  align-items: center; /* Vertically center the text */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.progress-text {
+  font-size: 12px; /* Adjust font size as needed */
+  font-weight: bold; /* Make the text bold */
+  color: #fff; /* White text color */
+}
+
+.presents-needed span {
+  font-family: 'New Font Family', sans-serif; /* Replace 'New Font Family' with your desired font family */
+  font-weight: 300; /* Light font weight */
+  font-style: italic; /* Italic style */
+}
+
 
 /* Responsive Styles */
 @media screen and (max-width: 600px) {
   .subject-container {
     grid-template-columns: 1fr; /* Single column on smaller screens */
-    padding: 15px; /* Adjusted padding for smaller screens */
-    grid-gap: 15px; /* Adjusted gap for smaller screens */
+    width: 90%; /* Adjusted width for smaller screens */
+    padding: 10px; /* Adjusted padding */
+    grid-gap: 10px; /* Adjusted gap */
+  }
+  
+  .subject-buttons {
+    justify-content: center; /* Center buttons on smaller screens */
   }
 }
-

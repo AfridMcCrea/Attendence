@@ -1,0 +1,29 @@
+/* BottomNav.css */
+.bottom-nav {
+    
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #b9272755;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.707);
+    
+  }
+  
+  .nav-tab {
+    background-color: #ffffff00;
+    color: #ffffff;
+    /* padding: 10px 20px; */
+    border: none;
+
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .nav-tab:hover {
+    background-color: #ff7e9100;
+  }
+  

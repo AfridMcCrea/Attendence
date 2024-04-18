@@ -10,24 +10,40 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
   const [isEditing, setIsEditing] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [percentageColor, setPercentageColor] = useState("#007bff");
-  const [progressAngle, setProgressAngle] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [presentsNeeded, setPresentsNeeded] = useState(0);
 
+  // Interpolate between two colors based on percentage
+  const interpolateColor = (startColor, endColor, percentage) => {
+    const startRGB = startColor.match(/\d+/g).map(Number);
+    const endRGB = endColor.match(/\d+/g).map(Number);
+
+    const r = Math.round(startRGB[0] + (endRGB[0] - startRGB[0]) * (percentage / 100));
+    const g = Math.round(startRGB[1] + (endRGB[1] - startRGB[1]) * (percentage / 100));
+    const b = Math.round(startRGB[2] + (endRGB[2] - startRGB[2]) * (percentage / 100));
+
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+
   useEffect(() => {
+    // Calculate percentage
     const percentageValue = ((attended / attendance) * 100).toFixed(2);
     setPercentage(percentageValue);
-    if (percentageValue >= 75) {
-      setPercentageColor("green");
-    } else if (percentageValue >= 50) {
-      setPercentageColor("blue");
+
+    // Determine color based on percentage
+    let startColor, endColor;
+    if (percentageValue < 50) {
+      // Interpolate between red and yellow
+      startColor = "rgb(255, 0, 0)"; // Red
+      endColor = "rgb(255, 255, 0)"; // Yellow
     } else {
-      setPercentageColor("red");
+      // Interpolate between yellow and green
+      startColor = "rgb(255, 255, 0)"; // Yellow
+      endColor = "rgb(0, 128, 0)"; // Green
     }
 
-    // Calculate angle to represent percentage in circular progress bar
-    const angle = (percentageValue / 100) * 360;
-    setProgressAngle(angle);
+    const color = interpolateColor(startColor, endColor, percentageValue);
+    setPercentageColor(color);
 
     // Fetch saved subject names and attendance from localStorage
     const storedSubjects = JSON.parse(localStorage.getItem("subjects"));
@@ -76,7 +92,7 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
   };
 
   return (
-    <div className="subject-container">
+    <li className="subject-container">
       <div className="subject-header">
         {isEditing ? (
           <input
@@ -106,44 +122,6 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
           </button>
         </div>
       </div>
-      <div className="progress-container">
-        <svg className="progress-ring" width="120" height="120">
-          <circle
-            className="progress-ring-circle"
-            stroke="#ccc"
-            strokeWidth="8"
-            fill="transparent"
-            r="52"
-            cx="60"
-            cy="60"
-          />
-          <circle
-            className="progress-ring-circle"
-            stroke={percentageColor}
-            strokeWidth="8"
-            fill="transparent"
-            r="52"
-            cx="60"
-            cy="60"
-            style={{
-              strokeDasharray: `${progressAngle} 360`,
-              transform: "rotate(-90deg)",
-              transformOrigin: "50% 50%"
-            }}
-          />
-          <text
-            x="50%"
-            y="50%"
-            dominantBaseline="middle"
-            textAnchor="middle"
-            fill={percentageColor}
-            fontSize="16"
-            fontWeight="bold"
-          >
-            {percentage}%
-          </text>
-        </svg>
-      </div>
       <div className="subject-buttons">
         <button onClick={handlePresent} disabled={isChecked}>
           Present
@@ -156,10 +134,21 @@ function Subject({ name, initialAttendance, initialAttended, index, isChecked, o
         {percentage >= 75 ? (
           <span>You are on track</span>
         ) : (
-          <span>You need to attend more class.</span>
+          <span>Need to attend more class.</span>
         )}
       </div>
-    </div>
+      <div className="progress-bar-container">
+        <div
+          className="progress-bar"
+          style={{
+            width: `${percentage}%`,
+            backgroundColor: percentageColor,
+          }}
+        >
+          <span className="progress-text">{percentage}%</span>
+        </div>
+      </div>
+    </li>
   );
 }
 
