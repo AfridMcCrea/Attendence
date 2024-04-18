@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./Img/peakpx (1).jpg');
+  background-image: url('../Img/peakpx (1).jpg');
   /* background-size: 614px 896px;  */
   background-repeat: no-repeat; /* This prevents the image from repeating */
   /* background-position: center;  */
